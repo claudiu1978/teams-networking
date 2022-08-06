@@ -1,23 +1,21 @@
-function getTeamHTML() {
-  ` <tr>
+function getTeamHTML(team) {
+  return `
+  <tr>
   <td>${team.promotion}</td>
   <td>${team.members}</td>
   <td>c${team.name}
     <td>
-      <a href="${team.url}">claudiu</a>
+      <a href="${team.url}">openS</a>
       <td>x e</td>
   </td>
 </tr>`;
 }
 
 function displayTeams(teams) {
-  console.warn("display", teams);
-  var teamsHTML = "";
-  teams.forEach(function (team) {
-    teamsHTML += getTeamHTML(team);
-  });
+  //  transform in html
+  var teamsHTML = teams.map(getTeamHTML);
 
-  document.querySelector("table tbody").innerHTML = teamsHTML;
+  document.querySelector("table tbody").innerHTML = teamsHTML.join("");
 }
 
 function loadTeams() {
