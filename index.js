@@ -14,7 +14,7 @@ function getTeamHTML(team) {
 
 function displayTeams(teams) {
   //  transform in html
-  var teamsHTML = teams.map(getTeamHTML);
+  const teamsHTML = teams.map(getTeamHTML);
 
   $("table tbody").innerHTML = teamsHTML.join("");
 }
@@ -35,11 +35,11 @@ function $(selector) {
 }
 function submitForm(e) {
   e.preventDefault();
-  var promotion = $("input[name=promotion]").value;
-  var members = $("input[name=members]").value;
-  var name = $("input[name=name]").value;
-  var url = $("input[name=url]").value;
-  var team = {
+  const promotion = $("input[name=promotion]").value;
+  const members = $("input[name=members]").value;
+  const name = $("input[name=name]").value;
+  const url = $("input[name=url]").value;
+  const team = {
     promotion: promotion,
     members: members,
     name: name,
