@@ -21,10 +21,8 @@ function displayTeams(teams) {
 
 function loadTeams() {
   fetch("data/teams.json")
-    .then(function (r) {
-      // console.info(r);
-      return r.json();
-    })
+    .then((r) => r.json())
+
     .then(function (teams) {
       console.warn("teams", teams);
       displayTeams(teams);
