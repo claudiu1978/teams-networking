@@ -31,7 +31,7 @@ function loadTeams() {
     });
 }
 function $(selector) {
-  return $(selector);
+  return document.querySelector(selector);
 }
 function submitForm(e) {
   e.preventDefault();
