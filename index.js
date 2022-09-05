@@ -20,7 +20,7 @@ function displayTeams(teams) {
 }
 
 function loadTeams() {
-  fetch("data/teams.json")
+  fetch("http://localhost:3000/teams-json")
     .then((r) => r.json())
 
     .then(function (teams) {
@@ -30,6 +30,15 @@ function loadTeams() {
 }
 function $(selector) {
   return document.querySelector(selector);
+}
+function createTeamRequest(team) {
+  return fetch("http://localhost:3000/teams-json/create", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(team),
+  });
 }
 function submitForm(e) {
   e.preventDefault();
@@ -44,7 +53,14 @@ function submitForm(e) {
     url: url,
   };
 
-  console.warn("submit", JSON.stringify(team));
+  createTeamRequest(team)
+    .then((r) => r.json())
+    .then((status) => {
+      console.warn("status", status);
+      if (status.success) {
+        location.reload();
+      }
+    });
 }
 function initEvents() {
   var form = document.getElementById("editForm");
