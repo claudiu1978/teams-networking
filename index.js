@@ -41,6 +41,17 @@ function createTeamRequest(team) {
     body: JSON.stringify(team),
   });
 }
+function removeTeamRequest(id){fetch("http://localhost:3000/teams-json/delete", {
+  method: "DELETE",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({ id:id })
+});
+
+  console.warn("remove", id)
+  
+}
 function submitForm(e) {
   e.preventDefault();
   const promotion = $("input[name=promotion]").value;
@@ -71,6 +82,8 @@ function initEvents() {
   if (e.target.matches("a.delete-btn")){
     const id=e.getAttribute("data-id")
    console.warn('click pe link', id)
+   removeTeamRequest().then(status=>{  if (status.success){loadTeams()}
+
   }
 })
 loadTeams();
