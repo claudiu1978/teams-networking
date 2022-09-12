@@ -7,7 +7,8 @@ function getTeamHTML(team) {
     <td>
       <a href="${team.url}">open</a>
     </td>
-    <td>x e</td>
+    <td>
+    <a href="#" data-id =${team.id} class="delete-btn">open</a>✖
   </td>
   </tr>`;
 }
@@ -65,6 +66,12 @@ function submitForm(e) {
 function initEvents() {
   var form = document.getElementById("editForm");
   form.addEventListener("submit", submitForm);
-}
+  form.querySelector("tbody").addEventListener("click", (e) => {
+  console.warn("click", e.target)
+  if (e.target.matches("a.delete-btn")){
+    const id=e.getAttribute("data-id")
+   console.warn('click pe link', id)
+  }
+})
 loadTeams();
 initEvents();
