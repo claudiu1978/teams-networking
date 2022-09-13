@@ -1,3 +1,6 @@
+let allTeams = [];
+let editId;
+
 function getTeamHTML(team) {
   return `
   <tr>
@@ -8,8 +11,9 @@ function getTeamHTML(team) {
       <a href="${team.url}">open</a>
     </td>
     <td>
-    <a href="#" data-id =${team.id} class="delete-btn">open</a>✖
-  </td>
+      <a href="#" data-id="${team.id}" class="delete-btn">✖</a>
+       <a href="#" data-id="${team.id}" class="edit-btn">&#9998;</a>
+    </td>
   </tr>`;
 }
 
@@ -26,12 +30,15 @@ function loadTeams() {
 
     .then(function (teams) {
       console.warn("teams", teams);
+      allTeams = teams;
       displayTeams(teams);
     });
 }
+
 function $(selector) {
   return document.querySelector(selector);
 }
+
 function createTeamRequest(team) {
   return fetch("http://localhost:3000/teams-json/create", {
     method: "POST",
@@ -41,19 +48,18 @@ function createTeamRequest(team) {
     body: JSON.stringify(team),
   });
 }
-function removeTeamRequest(id){fetch("http://localhost:3000/teams-json/delete", {
-  method: "DELETE",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({ id:id })
-});
 
-  console.warn("remove", id)
-  
+function removeTeamRequest(id) {
+  return fetch("http://localhost:3000/teams-json/delete", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ id: id }),
+  });
 }
-function submitForm(e) {
-  e.preventDefault();
+
+function getFormValues() {
   const promotion = $("input[name=promotion]").value;
   const members = $("input[name=members]").value;
   const name = $("input[name=name]").value;
@@ -64,7 +70,22 @@ function submitForm(e) {
     name: name,
     url: url,
   };
+  return team;
+}
 
+function setFormValues(team) {
+  $("input[name=promotion]").value = team.promotion;
+  $("input[name=members]").value = team.members;
+  $("input[name=name]").valueteam.name;
+  $("input[name=url]").value.url;
+}
+
+function submitForm(e) {
+  e.preventDefault();
+  const team = getFormValues();
+  if (editId) {
+    console.warn("pls edit", editId, team);
+  }
   createTeamRequest(team)
     .then((r) => r.json())
     .then((status) => {
@@ -74,17 +95,34 @@ function submitForm(e) {
       }
     });
 }
+
+function startEditTeam(id) {
+  const team = allTeams.find((team) => team.id === id);
+  console.warn("edit", id);
+  setFormValues(team);
+  editId = id;
+}
+
 function initEvents() {
   var form = document.getElementById("editForm");
   form.addEventListener("submit", submitForm);
-  form.querySelector("tbody").addEventListener("click", (e) => {
-  console.warn("click", e.target)
-  if (e.target.matches("a.delete-btn")){
-    const id=e.getAttribute("data-id")
-   console.warn('click pe link', id)
-   removeTeamRequest().then(status=>{  if (status.success){loadTeams()}
 
-  }
-})
+  form.querySelector("tbody").addEventListener("click", (e) => {
+    console.warn("click", e.target);
+    if (e.target.matches("a.delete-btn")) {
+      const id = e.getAttribute("data-id");
+      console.warn("click pe link", id);
+      removeTeamRequest().then((status) => {
+        if (status.success) {
+          loadTeams();
+        }
+      });
+    } else if (e.target.matches("a.edit-btn")) {
+      const id = e.getAttribute("data-id");
+      startEditTeam(id);
+    }
+  });
+}
+
 loadTeams();
 initEvents();
