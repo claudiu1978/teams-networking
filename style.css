@@ -1,13 +1,12 @@
-html {
+table {
   width: 100%;
-  background-color: rgb(217, 234, 234);
+  /* background-color: rgb(217, 234, 234); */
 }
-table input {
-  width: 100%
+input:not([type="image" i]) {
+  box-sizing: border-box;
 }
-input:not ([type="image"]){
-  box-sizing: border-box
-}
-#editForm tfoot input[type="text"]{
+
+
+  #editForm tfoot input[type="text"] {
   width: 100%;
 }
