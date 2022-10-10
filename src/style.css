@@ -7,6 +7,6 @@ input:not([type="image" i]) {
 }
 
 
-  #editForm tfoot input[type="text"] {
+      #editForm tfoot input[type="text"] {
   width: 100%;
 }
