@@ -119,7 +119,7 @@ function startEditTeam(id) {
 }
 
 function initEvents() {
-  $("#serch").addEventListener("input", e => {
+  $("#search").addEventListener("input", e => {
     const serch = e.target.value;
     const teams = allTeams.filter(team => {
       return team.promotion.toLowerCase().includes(serch);
@@ -152,3 +152,5 @@ function initEvents() {
 
 loadTeams();
 initEvents();
+
+console.warn("yes");
